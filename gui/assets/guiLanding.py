@@ -5,7 +5,7 @@
 
 from pathlib import Path
 from tkinter import *
-import gui_text
+import gui_text, gui_file
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path(r"../assets/frame0")
@@ -88,6 +88,6 @@ class Landing(Frame):
 
         def getMethod(method):
             if (method == "File"):
-                pass
+                self.master.switch_frame(gui_file.vigenere_Extended)
             elif (method == "Text"):
                 self.master.switch_frame(gui_text.vigenere_Extended)
