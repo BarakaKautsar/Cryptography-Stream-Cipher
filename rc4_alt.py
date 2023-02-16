@@ -5,13 +5,31 @@ import codecs
 hex_to_char = codecs.getdecoder("hex_codec")
 byte_to_int = codecs.getencoder("hex_codec")
 
-def LFSR(plaintext, key):
-    plaintext = hex_to_bin(plaintext)
-    key = hex_to_bin(key)
-    xor = int(plaintext, 2) ^ int(key, 2)
-    xor = bin(xor)[2:].zfill(8)
-    xor = xor[1:] + xor[0]
+def xor_text(message, key):
+    message = [ord(c) for c in message]
+    ciphertext = []
+    for i in range(len(message)):
+        ciphertext.append(chr(message[i] ^ key[i]))
+    return "".join(ciphertext)
+    
+
+
+def xor_bits (bits):
+    xor = 0
+    for bit in bits:
+        xor = xor ^ bit
     return xor
+
+def LFSR(plaintext, key):
+    register = [1 if bit =="1" else 0 for bit in key]
+    keystream = []
+    for i in range(len(plaintext)):
+        temp = "0b"
+        for _ in range (8):
+            register.append(xor_bits(register))
+            temp += str(register.pop(0))
+        keystream.append(int(temp, 2))
+    return keystream
 
 
 
@@ -46,7 +64,8 @@ def rc4_convert (key, plaintext):
     ciphertext = []
     for i in range(n):
         ciphertext.append(chr(plaintext[i] ^ key[i]))
-    return "".join(ciphertext)
+    ciphertext = xor_text(ciphertext, LFSR(plaintext, key))
+    return ciphertext
 
 def main():
     key = "Key"
