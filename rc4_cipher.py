@@ -1,49 +1,62 @@
 
-#Array of int from 0..255
-S = [i for i in range(256)]
-
-#Key Array of 256
-K = [0 for i in range(256)]
 
 #Key Scheduling Algorithm
-def KSA(key, S):
+def KSA(key):
+
+    S = list(range(256))
     j = 0
     for i in range(256):
         j = (j + S[i] + key[i % len(key)]) % 256
         S[i], S[j] = S[j], S[i]
+    return S
     
-#Pseudo-Random Generation Algorithm
-def PRGA():
+#Pseudo-Random Generation Algorithm generate key in string
+def PRGA(S, n):
     i = 0
     j = 0
-    for i in range(256):
+    key = []
+    for k in range(n):
         i = (i + 1) % 256
         j = (j + S[i]) % 256
         S[i], S[j] = S[j], S[i]
-        K = S[(S[i] + S[j]) % 256]
-        yield K
+        key.append(S[(S[i] + S[j]) % 256])
+    return key
+
+
+
 
 #Encryption
 def encrypt(key, plaintext):
     key = [ord(c) for c in key]
-    KSA(key, S)
-    keystream = PRGA()
-    return ''.join(chr(ord(c) ^ next(keystream)) for c in plaintext)
+    plaintext = [ord(c) for c in plaintext]
+    S = KSA(key)
+    n = len(plaintext)
+    key = PRGA(S, n)
+    ciphertext = []
+    for i in range(n):
+        ciphertext.append(str(hex(plaintext[i] ^ key[i])))
+    return "".join(ciphertext)
 
 #Decryption
 def decrypt(key, ciphertext):
     key = [ord(c) for c in key]
-    KSA(key, S)
-    keystream = PRGA()
-    return ''.join(chr(ord(c) ^ next(keystream)) for c in ciphertext)
+    ciphertext = [int(c, 16) for c in ciphertext.split()]
+    S = KSA(key)
+    n = len(ciphertext)
+    key = PRGA(S, n)
+    plaintext = []
+    for i in range(n):
+        plaintext.append(chr(ciphertext[i] ^ key[i]))
+    return "".join(plaintext)
+
 
 #Main
 def main():
     key = "Key"
     plaintext = "Plaintext"
     ciphertext = encrypt(key, plaintext)
-    print("Ciphertext: ", ciphertext)
-    print("Decrypted: ", decrypt(key, ciphertext))
+    print(ciphertext)
+    print(decrypt(key, ciphertext))
 
 if __name__ == "__main__":
     main()
