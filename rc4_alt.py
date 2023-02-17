@@ -1,6 +1,7 @@
 #rc4 stream cipher with lsfr and advanced permutation
 
 import codecs
+import vigenereExtended as vigenereExt
 
 hex_to_char = codecs.getdecoder("hex_codec")
 byte_to_int = codecs.getencoder("hex_codec")
@@ -61,14 +62,17 @@ def rc4_convert (key, plaintext):
     S = key_scheduling_algorithm(key)
     n = len(plaintext)
     key = pseudo_random_generation_algorithm(S, n)
+    vig_key = [chr(k) for k in key]
     ciphertext = []
     for i in range(n):
         ciphertext.append(chr(plaintext[i] ^ key[i]))
     ciphertext = xor_text(ciphertext, LFSR(plaintext, key))
+    vigenereExt_cipher = vigenereExt.encrypt(plaintext, vig_key)
+    ciphertext = xor_text(vigenereExt_cipher, ciphertext) 
     return ciphertext
 
 def main():
-    key = "Key"
+    key = "Keyword"
     plaintext = "Ujuro"
     ciphertext = rc4_convert(key, plaintext)
     print(ciphertext)
