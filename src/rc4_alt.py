@@ -66,7 +66,6 @@ def rc4_convert (key, plaintext):
     S = key_scheduling_algorithm(key)
     n = len(plaintext)
     key = pseudo_random_generation_algorithm(S, n)
-    # vig_key = [chr(k) for k in key]
     ciphertext = [] 
     for i in range(n):
         ciphertext.append(plaintext[i] ^ key[i])
@@ -74,30 +73,28 @@ def rc4_convert (key, plaintext):
     ciphertext = [ord(c) for c in ciphertext]
     vigenereExt_cipher = vigenereExt.encrypt(vig_key, vig_key)
     vigenereExt_cipher = [ord(c) for c in vigenereExt_cipher]
-    #print(ciphertext)
     for i in range(len(ciphertext)):
         ciphertext[i] = chr(ciphertext[i] ^ vigenereExt_cipher[i % len(vigenereExt_cipher)])
-    #ciphertext = xor_text(vigenereExt_cipher, ciphertext) 
     return ("".join(ciphertext))
 
-def main():
-    key = "raka"
-    plaintext = "raka"
-    ciphertext = rc4_convert(key, plaintext)
-    print("ciphertext:" + ciphertext)
-    decypertext = rc4_convert(key, ciphertext)
-    print("decryptext:" + decypertext)
-    # with open("logo.png", "rb") as save:
-    #     cipher = rc4_convert(key, save.read().decode("latin-1"))
+# def main():
+#     key = "raka"
+#     plaintext = "raka"
+#     ciphertext = rc4_convert(key, plaintext)
+#     print("ciphertext:" + ciphertext)
+#     decypertext = rc4_convert(key, ciphertext)
+#     print("decryptext:" + decypertext)
+#     # with open("logo.png", "rb") as save:
+#     #     cipher = rc4_convert(key, save.read().decode("latin-1"))
 
-    # with open("logo_encrypted.txt", "wb") as save:
-    #     save.write(cipher.encode("latin-1"))
+#     # with open("logo_encrypted.txt", "wb") as save:
+#     #     save.write(cipher.encode("latin-1"))
 
-    # with open ("logo_encrypted.txt", "rb") as save:
-    #     plain = rc4_convert(key, save.read().decode("latin-1"))
+#     # with open ("logo_encrypted.txt", "rb") as save:
+#     #     plain = rc4_convert(key, save.read().decode("latin-1"))
     
-    # with open("logo_decrypted.png", "wb") as save:
-    #     save.write(plain.encode("latin-1"))
+#     # with open("logo_decrypted.png", "wb") as save:
+#     #     save.write(plain.encode("latin-1"))
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
