@@ -38,7 +38,7 @@ class Landing(Frame):
             173.47903442382812,
             333.7021789550781,
             anchor="nw",
-            text="Modern Ciphers",
+            text="My Own Cipher",
             fill="#000000",
             font=("HKGrotesk BoldLegacy", 28 * -1)
         )

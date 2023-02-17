@@ -8,6 +8,8 @@ byte_to_int = codecs.getencoder("hex_codec")
 
 def xor_text(message, key):
     message = [ord(c) for c in message]
+    if type(key)!=list:
+        key = [ord(c) for c in key]
     ciphertext = []
     for i in range(len(message)):
         ciphertext.append(chr(message[i] ^ key[i]))
@@ -57,27 +59,29 @@ def pseudo_random_generation_algorithm(S, n):
 
 
 def rc4_convert (key, plaintext):
+    vig_key = key
     key = [ord(c) for c in key]
     plaintext = [ord(c) for c in plaintext]
     S = key_scheduling_algorithm(key)
     n = len(plaintext)
     key = pseudo_random_generation_algorithm(S, n)
-    vig_key = [chr(k) for k in key]
+    # vig_key = [chr(k) for k in key]
     ciphertext = []
     for i in range(n):
-        ciphertext.append(chr(plaintext[i] ^ key[i]))
-    ciphertext = xor_text(ciphertext, LFSR(plaintext, key))
-    vigenereExt_cipher = vigenereExt.encrypt(plaintext, vig_key)
+        ciphertext.append(plaintext[i] ^ key[i])
+    # ciphertext = xor_text(ciphertext, LFSR(plaintext, key))
+    vigenereExt_cipher = vigenereExt.encrypt("Reza", vig_key)
+    print(ciphertext)
     ciphertext = xor_text(vigenereExt_cipher, ciphertext) 
     return ciphertext
 
 def main():
-    key = "Keyword"
-    plaintext = "Ujuro"
+    key = "Key"
+    plaintext = "aduhhhinigimana"
     ciphertext = rc4_convert(key, plaintext)
-    print(ciphertext)
+    print("ciphertext:" + ciphertext)
     decypertext = rc4_convert(key, ciphertext)
-    print(decypertext)
+    print("decryptext:" + decypertext)
     # with open("logo.png", "rb") as save:
     #     cipher = rc4_convert(key, save.read().decode("latin-1"))
 
