@@ -66,18 +66,21 @@ def rc4_convert (key, plaintext):
     n = len(plaintext)
     key = pseudo_random_generation_algorithm(S, n)
     # vig_key = [chr(k) for k in key]
-    ciphertext = []
+    ciphertext = [] 
     for i in range(n):
         ciphertext.append(plaintext[i] ^ key[i])
     # ciphertext = xor_text(ciphertext, LFSR(plaintext, key))
     vigenereExt_cipher = vigenereExt.encrypt("Reza", vig_key)
-    print(ciphertext)
-    ciphertext = xor_text(vigenereExt_cipher, ciphertext) 
-    return ciphertext
+    vigenereExt_cipher = [ord(c) for c in vigenereExt_cipher]
+    #print(ciphertext)
+    for i in range(len(ciphertext)):
+        ciphertext[i] = chr(ciphertext[i] ^ vigenereExt_cipher[i % len(vigenereExt_cipher)])
+    #ciphertext = xor_text(vigenereExt_cipher, ciphertext) 
+    return ("".join(ciphertext))
 
 def main():
     key = "Key"
-    plaintext = "aduhhhinigimana"
+    plaintext = "aduhhhi ni gimana"
     ciphertext = rc4_convert(key, plaintext)
     print("ciphertext:" + ciphertext)
     decypertext = rc4_convert(key, ciphertext)
