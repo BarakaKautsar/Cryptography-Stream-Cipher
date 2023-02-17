@@ -12,8 +12,8 @@ import sys
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path(r"../assets/frame1")
 
-# sys.path.append("../Kripto_1")
-# import vigenereExtended
+sys.path.append("../Kripto_2")
+import rc4_alt 
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
@@ -24,7 +24,7 @@ class vigenere_Extended(Frame):
 
         #functions
         def encrypt_pressed(plaintext,key):
-            self.hasilCipher["text"]= vigenereExtended.encrypt(plaintext,key)
+            self.hasilCipher["text"]= rc4_alt.rc4_convert(key, plaintext)
 
         def upload_pressed(type):
             filetypes = [('text files', '*.txt')]
@@ -38,7 +38,7 @@ class vigenere_Extended(Frame):
                 self.entry_4.insert('1.0', plaintext)  
 
         def decrypt_pressed(cipher,key):
-            self.hasilPlaintext["text"]= vigenereExtended.decrypt(cipher,key)             
+            self.hasilPlaintext["text"]=rc4_alt.rc4_convert(key, cipher)             
 
         def save_pressed(type):
             filename = ""

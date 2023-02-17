@@ -74,6 +74,17 @@ def main():
     print(ciphertext)
     decypertext = rc4_convert(key, ciphertext)
     print(decypertext)
+    # with open("logo.png", "rb") as save:
+    #     cipher = rc4_convert(key, save.read().decode("latin-1"))
+
+    # with open("logo_encrypted.txt", "wb") as save:
+    #     save.write(cipher.encode("latin-1"))
+
+    # with open ("logo_encrypted.txt", "rb") as save:
+    #     plain = rc4_convert(key, save.read().decode("latin-1"))
+    
+    # with open("logo_decrypted.png", "wb") as save:
+    #     save.write(plain.encode("latin-1"))
 
 if __name__ == "__main__":
     main()
