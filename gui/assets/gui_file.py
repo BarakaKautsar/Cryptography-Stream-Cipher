@@ -12,8 +12,8 @@ import sys
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path(r"../assets/frame1")
 
-sys.path.append("../Kripto_1")
-import vigenereExtended
+sys.path.append("../Kripto_2")
+import rc4_alt
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
@@ -36,7 +36,7 @@ class vigenere_Extended(Frame):
                     with open(filename, "rb") as save:
                         plaintext = save.read().decode("latin-1")
                         self.hasilCipher["text"]= savefile
-                        cipher = vigenereExtended.encrypt(plaintext,key)
+                        cipher = rc4_alt.rc4_convert(key, plaintext)
                         with open(savefile, "wb") as file:
                             file.write(cipher.encode('latin-1'))
                         tkmb.showinfo("File Saved!",  "File Saved!") 
@@ -66,7 +66,7 @@ class vigenere_Extended(Frame):
                     with open(filename, "rb") as save:
                         plaintext = save.read().decode("latin-1")
                         self.hasilPlaintext["text"]= savefile
-                        cipher = vigenereExtended.decrypt(plaintext,key)
+                        cipher = rc4_alt.rc4_convert(key, plaintext)
                         with open(savefile, "wb") as file:
                             file.write(cipher.encode('latin-1'))
                         tkmb.showinfo("File Saved!",  "File Saved!")              
