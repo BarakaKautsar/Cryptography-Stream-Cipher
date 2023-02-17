@@ -7,7 +7,8 @@ hex_to_char = codecs.getdecoder("hex_codec")
 byte_to_int = codecs.getencoder("hex_codec")
 
 def xor_text(message, key):
-    message = [ord(c) for c in message]
+    if type(message)!=list:
+        message = [ord(c) for c in message]
     if type(key)!=list:
         key = [ord(c) for c in key]
     ciphertext = []
@@ -69,7 +70,8 @@ def rc4_convert (key, plaintext):
     ciphertext = [] 
     for i in range(n):
         ciphertext.append(plaintext[i] ^ key[i])
-    # ciphertext = xor_text(ciphertext, LFSR(plaintext, key))
+    ciphertext = xor_text(ciphertext, LFSR(plaintext, key))
+    ciphertext = [ord(c) for c in ciphertext]
     vigenereExt_cipher = vigenereExt.encrypt(vig_key, vig_key)
     vigenereExt_cipher = [ord(c) for c in vigenereExt_cipher]
     #print(ciphertext)
@@ -79,23 +81,23 @@ def rc4_convert (key, plaintext):
     return ("".join(ciphertext))
 
 def main():
-    key = "cece"
-    # plaintext = "cece"
-    # ciphertext = rc4_convert(key, plaintext)
-    # print("ciphertext:" + ciphertext)
-    # decypertext = rc4_convert(key, ciphertext)
-    # print("decryptext:" + decypertext)
-    with open("logo.png", "rb") as save:
-        cipher = rc4_convert(key, save.read().decode("latin-1"))
+    key = "raka"
+    plaintext = "raka"
+    ciphertext = rc4_convert(key, plaintext)
+    print("ciphertext:" + ciphertext)
+    decypertext = rc4_convert(key, ciphertext)
+    print("decryptext:" + decypertext)
+    # with open("logo.png", "rb") as save:
+    #     cipher = rc4_convert(key, save.read().decode("latin-1"))
 
-    with open("logo_encrypted.txt", "wb") as save:
-        save.write(cipher.encode("latin-1"))
+    # with open("logo_encrypted.txt", "wb") as save:
+    #     save.write(cipher.encode("latin-1"))
 
-    with open ("logo_encrypted.txt", "rb") as save:
-        plain = rc4_convert(key, save.read().decode("latin-1"))
+    # with open ("logo_encrypted.txt", "rb") as save:
+    #     plain = rc4_convert(key, save.read().decode("latin-1"))
     
-    with open("logo_decrypted.png", "wb") as save:
-        save.write(plain.encode("latin-1"))
+    # with open("logo_decrypted.png", "wb") as save:
+    #     save.write(plain.encode("latin-1"))
 
 if __name__ == "__main__":
     main()

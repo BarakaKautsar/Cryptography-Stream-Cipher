@@ -10,9 +10,9 @@ import guiLanding
 import sys
 
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path(r"../assets/frame1")
+ASSETS_PATH = OUTPUT_PATH / Path(r"assets/frame1")
 
-sys.path.append("../Kripto_2")
+sys.path.append("../Kripto_2/src/")
 import rc4_alt
 
 def relative_to_assets(path: str) -> Path:
